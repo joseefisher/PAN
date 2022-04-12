@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>1610B网盘</title>
+    <style type="text/css">
+        .outSide {
+            /*登录/注册按钮太靠上，往下挪*/
+            margin-top: 15px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class='container outSide'>
+        <div class='row'>
+            <!-- 一个按钮注册登录 占5格-->
+            <div class='col-md-5'>
+                <h3 style="margin-top: 7px">1610B网盘上传系统<small>这里是一个纯净的地方</small></h3>
+            </div>
+            <div class='col-md-2 col-md-offset-4'>
+                <!-- data-toggle 样式和这个按钮链上 -->
+                <!-- data-target 链上哪个弹窗 -->
+                <input type='button' class='btn btn-default btn-primary btn-myBtn' value='登录／注册' data-toggle="modal" data-target=".abc">
+                <p class='namesNode hide'>欢迎回来 <span></span></p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 登录完得有所谓得表格了，但注意，一上来没数据时表格不存在，是hide-->
+    <div class='container fileShowNode hide'>
+        <table class='table text-center table-hover'>
+            <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>文件名</td>
+                    <td>文件大小</td>
+                    <td>上传时间</td>
+                    <td>下载次数</td>
+                    <td>是否删除</td>
+                </tr>
+            </thead>
+            <tbody>
+                <!--
+                  一个示例，一开始不能生成，是上传选择之后才会有数据显示
+          <tr>
+            <td>1</td>
+            <td>asjdals.jpg</td>
+            <td>21mb</td>
+            <td>2017/22</td>
+            <td>0</td>
+            <td><input type="button" name="" class='btn btn-default btn-danger btn-xs' value='删除'></td>
+          </tr>
+        -->
+                </thead>
+
+        </table>
+
+        <form class='form-inline'>
+            <div class='form-group'>
+                <!-- 上传文件按钮 -->
+                <input type="file" name="" class='fsNode'>
+
+            </div>
+            <!-- 个人账号的 选择文件 和 上传文件 -->
+            <div class='form-group'>
+                <input type="button" name="" class='btn btn-default btn-primary btn-xs btn-setFiles' value="上传文件" data-toggle="modal" data-target=".bbb">
+            </div>
+        </form>
+
+
+
+    </div>
+
+
+
+    <div class="modal fade bbb" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">信息栏</h4>
+                </div>
+                <div class="modal-body bodytextNode">
+                    <p>One fine body&hellip;</p>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+    <!-- 点注册/登录框   弹出   下拉框 -->
+    <div class="modal fade abc" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">注册登录框</h4>
+                </div>
+                <div class="modal-body">
+                    <form class='myForm'>
+                        <div class='form-group'>
+                            <label>用户名：</label>
+                            <input type="" name="" class='form-control userNode'>
+                        </div>
+                        <div class='form-group'>
+                            <label>密码：</label>
+                            <input type="password" name="" class='form-control passNode'>
+                        </div>
+                        <input type="button" name="" value='登录' class='btn btn-default btn-primary btn-loginNode'>
+                        <input type="button" name="" value='注册' class='btn btn-default btn-info btn-res'>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <script src="js/jq.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        //this js for leo
+
+        (() => {
+            let index = 1;
+            //每次回调都清空上次的用户名和密码
+            $('.btn-myBtn').on({
+                click() {
+                    $('.myForm .form-group').removeClass('has-error');
+                    $('.userNode').val('');
+                    $('.passNode').val('');
+
+                }
+            });
+
+            //显示上传好的文件
+            function toTr(index, filesName, size, timer, download, hash) {
+                var oTr = document.createElement('tr');
+                $(oTr).attr('hash', hash);
+                oTr.innerHTML = `
+            <td>${index}</td>
+            <td>${filesName}</td>
+            <td>${size}</td>
+            <td>${timer}</td>
+            <td>${download}</td>
+            <td><input type='button' class='btn btn-default btn-danger btn-xs btn-deleteNode' value='删除' data-toggle="modal" data-target=".bbb"></td>`;
+
+                return oTr;
+            }
+
+            //删除文件，事件委托
+            //删除文件
+            $('body').on({
+                'click': function() {
+                    var _this = this;
+                    $.ajax({
+                        url: 'http://localhost:9111/login/removeFile',
+                        type: 'get',
+                        data: {
+                            user: $('.userNode').val(),
+                            hash: $(_this.parentNode.parentNode).attr('hash')
+                        },
+                        success: function(data) {
+                            //console.log(data)
+                            if (data.ok == 1) {
+                                // $('.abc').modal('toggle');
+                                //删除文件前台也得删除
+                                $('.bodytextNode p').html(data.msg);
+                                _this.parentNode.parentNode.remove();
+
+                            } else {
+                                $('.bodytextNode p').html(data.msg);
+                            }
+                        }
+                    })
+                }
+            }, '.btn-deleteNode')
+
+
+            //上传文件
+            $('.btn-setFiles').on({
+                    'click': function() {
+                        //new一个form表单实例
+                        var FromNode = new FormData();
+                        console.log($('.fsNode')[0].files[0])
+                            //$('.fsNode')[0] 文件  $('.fsNode')[0].files[0]文件信息
+                        FromNode.append('files', $('.fsNode')[0].files[0]);
+                        //把谁传的也放进表单
+                        FromNode.append('Fsnames', $('.userNode').val());
+
+                        var xhr = new XMLHttpRequest();
+                        //传文件得用post了，true异步
+                        xhr.open('post', 'http://localhost:9111/login/getfiles', true);
+
+                        xhr.send(FromNode);
+
+                        xhr.onload = function() {
+                            //response 就到后端的上传文件接口
+                            var json = eval('(' + xhr.responseText + ')');
+                            //index,filesName,size,timer,download,hash
+                            if (json.ok == 1) {
+                                $('.bodytextNode p').html('恭喜您～上传成功');
+                                $('.fileShowNode tbody')[0].appendChild(toTr(index, $('.fsNode')[0].files[0].name, ($('.fsNode')[0].files[0].size / 1024).toFixed(2) + 'KB', json.timer, 0, json.hash));
+                                index++;
+
+                            } else {
+                                $('.bodytextNode p').html(json.msg);
+                            }
+                            //上传好文件就把前台显示的文件清除
+                            $('.fsNode').val('');
+
+
+
+                        }
+                    }
+                })
+                //登录
+            $('.btn-loginNode').on({
+                click() {
+                    $.ajax({
+                        url: 'http://localhost:9111/login/login',
+                        type: 'get',
+                        data: {
+                            'user': $('.userNode').val(),
+                            'pass': $('.passNode').val()
+                        },
+                        success: function(data) {
+                            //console.log(data)
+                            if (data.ok == 1) {
+                                //alert(data.msg);
+                                //登录成功，让下拉弹窗消失
+                                $('.abc').modal('toggle');
+                                //登录注册按钮要hide
+                                $('.btn-myBtn').hide();
+                                $('.namesNode').removeClass('hide');
+                                //放入登陆进的用户名
+                                $('.namesNode span').html($('.userNode').val());
+                                //登录成功一瞬间显示表格
+                                $('.fileShowNode').removeClass('hide');
+
+
+                                //$('.fileShowNode tbody')[0].appendChild(toTr(index,$('.fsNode')[0].files[0].name,$('.fsNode')[0].files[0].size/1024+'KB',json.timer,0,json.hash));
+
+                                //[{},{},{}]
+                                //显示登陆后的已经上传的文件信息
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('.fileShowNode tbody')[0].appendChild(toTr(index, data.data[i].LastName, (data.data[i].size / 1024).toFixed(2) + 'KB', data.data[i].lastTime, data.data[i].download, data.data[i].hashName));
+                                    index++;
+                                }
+                            } else {
+                                alert(data.msg);
+                                $('.myForm .form-group').addClass('has-error');
+                            }
+                        }
+                    })
+                }
+            });
+
+
+
+            //注册
+            $('.btn-res').on({
+                click() {
+                    //点击后确定接口，用route做，防止出问题
+                    $.ajax({
+                        //地址是自己定的res
+                        url: 'http://localhost:9111/login/res',
+                        type: 'get',
+                        data: {
+                            //user和pass通过上面的用户名和密码取到
+                            'user': $('.userNode').val(),
+                            'pass': $('.passNode').val()
+                        },
+                        success: function(data) {
+                            //成功还是失败浏览器返回信息提示
+                            if (data.ok == 1) {
+                                alert(data.msg);
+                                // $('.abc').modal('toggle');
+                            } else {
+                                alert(data.msg);
+                                //失败后myForm下的所有form-group红色警示
+                                $('.myForm .form-group').addClass('has-error');
+                            }
+                        }
+                    })
+
+
+
+                }
+            })
+
+        })();
+        // ------
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>

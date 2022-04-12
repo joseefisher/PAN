@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>欢迎来到1610B网盘空间</title>
+    <style type="text/css">
+        .outSide {
+            margin-top: 15px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class='container outSide'>
+        <div class='row'>
+            <div class='col-md-6'>
+                <h3 style="margin-top: 7px">1610B网盘下载系统基础版<small>这里是一个纯净的地方-Leo</small></h3>
+            </div>
+            <div class='col-md-3 col-md-offset-3'>
+                <a class="btn btn-default btn-primary btn-sm" href="index.html" role="button" style="margin-top: 3px">转到上传系统</a>
+            </div>
+        </div>
+    </div>
+    <div class="container outNode">
+        <table class='table text-center table-hover'>
+            <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>上传者</td>
+                    <td>文件名</td>
+                    <td>文件大小</td>
+                    <td>上传时间</td>
+                    <td>下载次数</td>
+                    <td>下载</td>
+                    <td>预览</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i = 0;i < allData.length;i++){ %>
+                    <tr>
+                        <td>
+                            <%= i+1 %>
+                        </td>
+                        <td>
+                            <%= allData[i].user %>
+                        </td>
+                        <td>
+                            <%= allData[i].LastName %>
+                        </td>
+                        <td>
+                            <%= (allData[i].size/1024).toFixed(2)+'KB' %>
+                        </td>
+                        <td>
+                            <%= allData[i].lastTime %>
+                        </td>
+                        <td class='dw'>
+                            <%= allData[i].download %>
+                        </td>
+                        <td><a class="btn btn-default btn-success btn-xs btn-downl" role="button" href="allFiles/<%=allData[i].hashName %>" download="allFiles/<%=allData[i].hashName %>" hash="<%=allData[i].hashName %>" user="<%=allData[i].user%>">下载</a></td>
+                        <td><input type='button' value='预览' class='btn btn-default btn-primary btn-xs btn-show' data-toggle='modal' data-target='.abc' data-type="<%=allData[i].type %>"></td>
+                    </tr>
+                    <%}%>
+                        <!--
+           <tr>
+            <td>1</td>
+            <td>leo</td>
+            <td>1111.jpg</td>
+            <td>21312kb</td>
+            <td>2018/</td>
+            <td>2</td>
+            <td></td>
+            <td>预览</td>
+          </tr>
+          -->
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class='container'>
+        <nav aria-label="...">
+            <ul class="pager">
+                <% if(allData.length !=0) {%>
+                    <% if(page==0){ %>
+                        <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
+                        <% }else{%>
+                            <li class="previous"><a href="show.html?page=<%=(page-1)%>"><span aria-hidden="true">&larr;</span> Older</a></li>
+                            <% }%>
+
+                                <% if(allData.length<10){ %>
+                                    <li class="next disabled"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                                    <% }else{%>
+                                        <li class="next"><a href="show.html?page=<%=(Number(page)+1)%>">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                                        <% }%>
+                                            <%}%>
+            </ul>
+        </nav>
+
+
+    </div>
+
+    <div class="modal fade abc" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">展示栏</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+    <script src="./js/jq.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        (() => {
+
+            let index = 1;
+
+            function toTr(index, userName, filesName, size, timer, download, hash, type) {
+                var oTr = document.createElement('tr');
+                //  $(oTr).attr('hash',hash);
+                oTr.innerHTML = `
+              <td>${index}</td>
+              <td>${userName}</td>
+              <td>${filesName}</td>
+              <td>${size}</td>
+              <td>${timer}</td>
+              <td class="dw">${download}</td>
+              <td><a class="btn btn-default btn-success btn-xs btn-downl" role="button" href="allFiles/${hash}" download="allFiles/${hash}" hash="${hash}" user="${userName}">下载</a></td>
+              <td><input type='button' value='预览' class='btn btn-default btn-primary btn-xs btn-show' data-toggle='modal' data-target='.abc' data-type="${type}"></td>`;
+
+                return oTr;
+            };
+
+            $('body').on({
+                click() {
+                    $('.modal-body')[0].innerHTML = '';
+                    var re = /\.gif|\.png|\.jpg|\.jpeg$/;
+                    if (re.test($(this).attr('data-type'))) {
+                        var img = new Image();
+                        img.className = 'img-thumbnail';
+                        img.style.cssText = 'max-width:100%;max-height:100%';
+                        img.onload = function() {
+                            $('.modal-body')[0].appendChild(img)
+                        };
+                        img.src = this.parentNode.parentNode.querySelector('.btn-downl').href;
+
+                    }
+
+                }
+            }, '.btn-show');
+
+
+            $('body').on({
+                click() {
+                    var _this = this;
+                    $.ajax({
+                        url: 'http://localhost:9111/show/addDownload',
+                        type: 'get',
+                        data: {
+                            hash: $(_this).attr('hash'),
+                            user: $(_this).attr('user')
+                        },
+                        success: function(data) {
+                            console.log(data.msg)
+                            if (data.ok == 1) {
+                                var downloadNode = _this.parentNode.parentNode.querySelector('.dw');
+                                downloadNode.innerHTML = Number(downloadNode.innerHTML) + 1;
+                                //$('.bodytextNode p').html('asdasdas');
+                                alert(data.msg)
+                            } else {
+                                alert(data.msg)
+                                    // $('.bodytextNode p').html(data.msg);
+                            }
+
+                        }
+                    })
+
+                }
+            }, '.btn-downl');
+
+        })();
+    </script>
+</body>
+
+</html>
