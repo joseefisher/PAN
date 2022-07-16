@@ -25,12 +25,10 @@
  * 对应数据库的增删查改
 ##
 ### 展示
-![image](https://user-images.githubusercontent.com/94679657/168416105-15b841d4-1c95-4c12-a386-ffc27e69d91a.png)
+![登录注册](https://user-images.githubusercontent.com/94679657/179344746-fd854cec-5c7e-4fde-9fab-8c921f53ad20.png)
+![对应后台数据](https://user-images.githubusercontent.com/94679657/179344755-a7b36d1b-f740-4833-9b76-40d27c8fad50.png)
 
-![image](https://user-images.githubusercontent.com/94679657/168416124-a784f0e6-ad72-4753-afb4-9640a787b1da.png) 
+![上传文件及删除](https://user-images.githubusercontent.com/94679657/179344762-be497998-fee0-4dac-a247-54cc14c7d13a.png)
 
-![image](https://user-images.githubusercontent.com/94679657/168416134-e0c708a1-3200-45b1-b70a-211b544a260d.png)
-
-![image](https://user-images.githubusercontent.com/94679657/168416138-4ca396a5-862e-4300-a2fd-54363be1c54f.png)
 
 ---
